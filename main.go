@@ -6,6 +6,9 @@ import (
 	"fmt"
 )
 
+// package level variables
+const CONFERENCE_NAME = "GO Conference"
+
 /**
 * go vs java performance using factorial program
 * https://medium.com/@radadiyasunny970/a-simple-performance-test-and-difference-go-v-s-java-e6f29ad65293
@@ -16,7 +19,6 @@ import (
 // we need to provide an entry point for executing our code
 func main() {
 	// variables and constants
-	const CONFERENCE_NAME = "GO Conference"
 	const confTickets = 50
 	var remainingTickets = confTickets
 
