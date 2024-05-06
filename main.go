@@ -2,8 +2,11 @@
 package main
 
 // import format package
+// import custom package utils (learnGo/utils) defined in root folder or module-path (learnGo)
+// module path is defined in .mod file
 import (
 	"fmt"
+	"learnGo/utils"
 )
 
 // package level variables
@@ -70,7 +73,9 @@ func main() {
 		fmt.Println("Enter first name: ")
 		fmt.Scan(&userName)
 
-		if !isValidInput(userName) {
+		// imported method of custom package
+		// hence first letter is capitalized
+		if !utils.IsValidInput(userName) {
 			fmt.Println("Invalid name of the user. No of characters must be more than 1")
 			continue
 		}
@@ -127,23 +132,34 @@ func main() {
 	// 	fmt.Println("invalid city")
 	// }
 
+	// maps in golang
+	var mymap = make(map[string]string) // create empty map
+	mymap["firstName"] = "John"
+	mymap["lastName"] = "Stark"
+
+	fmt.Println("Map : ", mymap)
+
+	// list of maps with initial size of 0
+	var listOfMaps = make([]map[string]string, 0)
+	listOfMaps = append(listOfMaps, mymap)
+
+	fmt.Println("List of map : ", listOfMaps)
+
+	// initialize a structure
+	var user1 = User{
+		firstName: "tony",
+		lastName:  "stark",
+		age:       30,
+	}
+
+	fmt.Println(user1)
+	fmt.Println(user1.firstName)
+
 }
 
-/**
-* check if user wants to stop the application
-* return true - user wants to stop the application
-*        false - otherwise
- */
-func wantToStop() bool {
-	var stop string
-	fmt.Println("Do you want to stop the application ?")
-	fmt.Scan(&stop)
-	return stop == "yes"
-}
-
-/**
-* check if the input is valid
- */
-func isValidInput(name string) bool {
-	return len(name) > 1
+// create structure
+type User struct {
+	firstName string
+	lastName  string
+	age       uint
 }
