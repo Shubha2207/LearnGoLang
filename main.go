@@ -7,6 +7,8 @@ package main
 import (
 	"fmt"
 	"learnGo/utils"
+	"sync"
+	"time"
 )
 
 // package level variables
@@ -18,6 +20,8 @@ const CONFERENCE_NAME = "GO Conference"
 * try using multi-threading
 *  https://medium.com/deno-the-complete-reference/go-gin-vs-springboot-hello-world-perfomance-comparison-e535c9d6c36
  */
+
+var wg = sync.WaitGroup{}
 
 // we need to provide an entry point for executing our code
 func main() {
@@ -155,6 +159,39 @@ func main() {
 	fmt.Println(user1)
 	fmt.Println(user1.firstName)
 
+	// userstanding go routines
+
+	fmt.Println("\n\n ##### Understanding goroutines ##### \n\n")
+
+	start := time.Now()
+
+	i := 0
+	// running in sequential way
+	for i < 3 {
+		cpuFunc(i)
+		ioFunc(i)
+		i++
+	}
+
+	end := time.Now()
+
+	fmt.Println("Synchronus Execution completed in ", end.Sub(start))
+
+	start = time.Now()
+
+	i = 0
+	// running in parallely way
+	for i < 3 {
+		cpuFunc(i)
+		// wg.Add(1) // adding goroutine(thread) to wait group
+		go ioFunc(i)
+		i++
+	}
+	// wg.Wait() // block main thread until all goroutines are done
+	end = time.Now()
+
+	fmt.Println("Async Execution completed in ", end.Sub(start))
+
 }
 
 // create structure
@@ -162,4 +199,15 @@ type User struct {
 	firstName string
 	lastName  string
 	age       uint
+}
+
+func cpuFunc(i int) {
+	time.Sleep(4 * time.Second)
+	fmt.Println("cpu function completed for", i)
+}
+
+func ioFunc(i int) {
+	time.Sleep(8 * time.Second)
+	fmt.Println("io function completed for", i)
+	// wg.Done() // removing gorouting from wait
 }
